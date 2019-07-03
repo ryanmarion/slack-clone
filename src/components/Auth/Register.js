@@ -2,6 +2,7 @@ import React from 'react';
 import {Grid, Form, Segment, Button, Header, Message, Icon} from 'semantic-ui-react';
 import {Link} from 'react-router-dom';
 import firebase from '../../firebase';
+import md5 from 'md5';
 
 class Register extends React.Component {
   state = {
@@ -10,7 +11,8 @@ class Register extends React.Component {
     password:"",
     passwordConfirmation:"",
     errors:[],
-    loading:false
+    loading:false,
+    usersRef:firebase.database().ref('users')
   };
 
   displayErrors = (errors) => errors.map((error,i)=><p key={i}>{error.message}</p>);
@@ -27,8 +29,21 @@ class Register extends React.Component {
         .auth()
         .createUserWithEmailAndPassword(this.state.email,this.state.password)
         .then(createdUser => {
-          this.setState({loading:false})
           console.log(createdUser);
+          createdUser.user.updateProfile({
+            displayName:this.state.username,
+            photoURL:`http://gravatar.com/avatar/${md5(createdUser.user.email)}?d=identicon`
+          })
+            .then(()=>{
+              this.saveUser(createdUser).then(()=>{
+                this.setState({loading:false});
+                console.log('user saved');
+              })
+            })
+            .catch(err=>{
+              console.log(err);
+              this.setState({errors:this.state.errors.concat(err),loading:false});
+            });
         })
         .catch(err=>{
           console.log(err);
@@ -36,6 +51,13 @@ class Register extends React.Component {
         });
     }
   };
+
+  saveUser = (createdUser) => {
+    return this.state.usersRef.child(createdUser.user.uid).set({
+      name:createdUser.user.displayName,
+      avatar:createdUser.user.photoURL
+    });
+  }
 
   isFormValid = () => {
     let errors = [];
@@ -69,6 +91,14 @@ class Register extends React.Component {
     }
   };
 
+  handleInputErrors(errors,inputName){
+    return errors.some(error =>
+      error.message.toLowerCase().includes(inputName)
+    )
+    ? 'error'
+    : ""
+  };
+
   render(){
     const {username,
            email,
@@ -90,6 +120,7 @@ class Register extends React.Component {
                                 icon="user"
                                 iconPosition="left"
                                 placeholder="Username"
+                                className={this.handleInputErrors(errors,'username')}
                                 type="text"
                                 value={username}
                                 onChange={this.handleChange} />
@@ -99,13 +130,14 @@ class Register extends React.Component {
                                 placeholder="Email Address"
                                 value={email}
                                 type="email"
-                                className={errors.some(error=>error.message.toLowerCase().includes('email')) ? 'error' :  ''}
+                                className={this.handleInputErrors(errors,'email')}
                                 onChange={this.handleChange} />
               <Form.Input fluid name="password"
                                 icon="lock"
                                 iconPosition="left"
                                 placeholder="Password"
                                 value={password}
+                                className={this.handleInputErrors(errors,'password')}
                                 type="password"
                                 onChange={this.handleChange} />
               <Form.Input fluid name="passwordConfirmation"
@@ -113,6 +145,7 @@ class Register extends React.Component {
                                 iconPosition="left"
                                 placeholder="Password Confirmation"
                                 value={passwordConfirmation}
+                                className={this.handleInputErrors(errors,'password')}
                                 type="password"
                                 onChange={this.handleChange} />
               <Button color="orange"
