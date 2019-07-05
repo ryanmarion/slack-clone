@@ -20,7 +20,7 @@ export default class MessagesHeader extends React.Component {
             size="mini"
             icon="search"
             name="searchTerm"
-            placeholder="search messages"
+            placeholder="Search Messages"
           />
         </Header>
       </Segment>
