@@ -3,5 +3,26 @@ body,
 .app {
   height:100vh;
   background: #eee;
-  padding:1em;  
+  padding:1em;
+}
+
+.messages {
+  height:440px;
+  overflow-y:scroll;
+}
+
+.message__form {
+  position:fixed !Important;
+  bottom:1em;
+  margin-left:320px !Important;
+  left:0;
+  right:1em;
+  z-index:200;
+}
+
+/* message */
+
+.message__self {
+  border-left: 2px solid orange;
+  padding-left:8px;
 }
