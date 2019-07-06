@@ -8,7 +8,7 @@ const isOwnMessage = (message,user) => {
 
 const isImage = (message) => {
   return message.hasOwnProperty('image') && !message.hasOwnProperty('content')
-;}
+}
 
 const timeFromNow = timestamp => moment(timestamp).fromNow();
 
