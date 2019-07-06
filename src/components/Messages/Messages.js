@@ -7,7 +7,7 @@ import Message from './Message';
 
 export default class Messages extends React.Component {
   state = {
-      isPrivateChannel:this.props.isPrivateChannel,
+      isPrivateChannel:this.props.privateChannel,
       privateMessagesRef:firebase.database().ref('privateMessages'),
       messagesRef:firebase.database().ref('messages'),
       channel:this.props.currentChannel,

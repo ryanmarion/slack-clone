@@ -19,7 +19,7 @@ const App = ({currentUser,currentChannel,isPrivateChannel}) => (
         currentUser={currentUser}
         currentChannel={currentChannel}
         key={currentChannel && currentChannel.id}
-        isPrivateChannel={isPrivateChannel}
+        privateChannel={isPrivateChannel}
       />
     </Grid.Column>
     <Grid.Column width={4}>

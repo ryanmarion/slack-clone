@@ -57,7 +57,7 @@ class Channels extends React.Component {
           notifications[index].count = snap.numChildren() - lastTotal;
         }
       }
-      notifications[index].lasstKnownTotal = snap.numChildren();
+      notifications[index].lastKnownTotal = snap.numChildren();
     } else {
       notifications.push({
         id:channelId,
@@ -134,7 +134,7 @@ class Channels extends React.Component {
     });
 
     if(count > 0) return count;
-  }
+  };
 
   displayChannels = channels => (
     channels.length && channels.map(channel => (
@@ -162,12 +162,15 @@ class Channels extends React.Component {
 
   clearNotifications = () => {
     let index = this.state.notifications.findIndex(notification => notification.id === this.state.channel.id);
+    // console.log(index,this.state.channel.id);
 
     if(index !== -1){
       let updateNotifcations = [...this.state.notifications];
       updateNotifcations[index].total = this.state.notifications[index].lastKnownTotal;
       updateNotifcations[index].count = 0;
+      // console.log(index,updateNotifcations[index].count);
       this.setState({notifications:updateNotifcations});
+      // console.log(this.state.notifications,updateNotifcations);
     }
   }
 
