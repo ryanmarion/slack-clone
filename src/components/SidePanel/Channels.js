@@ -150,7 +150,7 @@ class Channels extends React.Component {
         # {channel.name}
       </Menu.Item>
     ))
-  )
+  );
 
   changeChannel = channel => {
     this.setActiveChannel(channel);
