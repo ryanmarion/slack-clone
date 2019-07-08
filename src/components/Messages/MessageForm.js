@@ -9,6 +9,7 @@ export default class MessageForm extends React.Component {
   state = {
     storageRef:firebase.storage().ref(),
     uploadState:'',
+    typingRef:firebase.database().ref('typing'),
     uploadTask:null,
     percentageUploaded:0,
     message:'',
@@ -25,6 +26,22 @@ export default class MessageForm extends React.Component {
 
   handleChange = e => {
     this.setState({[e.target.name]:e.target.value});
+  };
+
+  handleKeyDown = () => {
+    const {message,typingRef,channel,user} = this.state;
+
+    if(message){
+      typingRef
+        .child(channel.id)
+        .child(user.uid)
+        .set(user.displayName);
+    } else {
+      typingRef
+        .child(channel.id)
+        .child(user.uid)
+        .remove();
+    }
   };
 
   createMessage = (fileUrl=null) => {
@@ -49,7 +66,7 @@ export default class MessageForm extends React.Component {
 
   sendMessage = () => {
     const {getMessagesRef} = this.props;
-    const {message,channel} = this.state;
+    const {message,channel,user,typingRef} = this.state;
 
     if(message){
       //don't send until you have a message
@@ -60,6 +77,10 @@ export default class MessageForm extends React.Component {
         .set(this.createMessage())
         .then(()=>{
           this.setState({loading:false, message:'',errors:[]})
+          typingRef
+            .child(channel.id)
+            .child(user.uid)
+            .remove();
         })
         .catch(err=>{
           console.error(err);
@@ -151,6 +172,7 @@ export default class MessageForm extends React.Component {
             fluid
             name="message"
             onChange={this.handleChange}
+            onKeyDown={this.handleKeyDown}
             value={message}
             style={{marginBottom:'0.7em'}}
             label={<Button icon={'add'} />}

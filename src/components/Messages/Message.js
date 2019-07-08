@@ -22,6 +22,6 @@ const Message = ({message,user}) => (
       <Comment.Text>{message.content}</Comment.Text>}
     </Comment.Content>
   </Comment>
-);
+)
 
 export default Message;
