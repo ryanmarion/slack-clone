@@ -128,6 +128,8 @@ class Channels extends React.Component {
   getNotificationCount = channel => {
     let count = 0;
 
+    if(channel.id === this.state.activeChannel) return null;
+
     this.state.notifications.forEach(notification =>{
       if(notification.id === channel.id){
         count = notification.count;
@@ -140,7 +142,7 @@ class Channels extends React.Component {
   displayChannels = channels => (
     channels.length && channels.map(channel => (
       <Menu.Item key={channel.id}
-                 onClick={() => this.changeChannel(channel)}
+                 onClick={()=>this.changeChannel(channel)}
                  name={channel.name}
                  style={{opacity:0.7}}
                  active={channel.id === this.state.activeChannel}
@@ -173,9 +175,7 @@ class Channels extends React.Component {
       let updateNotifcations = [...this.state.notifications];
       updateNotifcations[index].total = this.state.notifications[index].lastKnownTotal;
       updateNotifcations[index].count = 0;
-      // console.log(index,updateNotifcations[index].count);
       this.setState({notifications:updateNotifcations});
-      // console.log(this.state.notifications,updateNotifcations);
     }
   }
 
