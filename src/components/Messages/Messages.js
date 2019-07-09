@@ -7,6 +7,7 @@ import { Segment, Comment} from 'semantic-ui-react';
 import firebase from '../../firebase';
 import Message from './Message';
 import Typing from './Typing';
+import Skeleton from './Skeleton';
 
 class Messages extends React.Component {
   state = {
@@ -18,7 +19,7 @@ class Messages extends React.Component {
       isChannelStarred:false,
       user:this.props.currentUser,
       messages:[],
-      messsagesLoading:true,
+      messagesLoading:true,
       progressBar:false,
       numUniqueUsers:'',
       searchTerm:'',
@@ -36,6 +37,16 @@ class Messages extends React.Component {
       this.addListeners(channel.id);
       this.addUserStarsListener(channel.id,user.uid);
     }
+  }
+
+  componentDidUpdate(prevProps,prevState){
+    if(this.messagesEnd){
+      this.scrollToBottom();
+    }
+  }
+
+  scrollToBottom = () => {
+    this.messagesEnd.scrollIntoView({behavior:'smooth'});
   }
 
   addListeners = channelId => {
@@ -88,7 +99,7 @@ class Messages extends React.Component {
       loadedMessages.push(snap.val());
       this.setState({
         messages:loadedMessages,
-        messsagesLoading:false //TODO - where is this used
+        messagesLoading:false
       });
       this.countUniqueUsers(loadedMessages);
       this.countUserPosts(loadedMessages);
@@ -219,12 +230,21 @@ class Messages extends React.Component {
         <span className="user__typing">{user.name} is typing</span> <Typing />
       </div>
     ))
-  )
+  );
+
+  displayMessagesSkeleton = loading =>
+    loading ? (
+      <React.Fragment>
+        {[...Array(10)].map((_, i) => (
+          <Skeleton key={i} />
+        ))}
+      </React.Fragment>
+    ) : null;
 
   render(){
     const {messagesRef,channel,user,messages,progressBar,numUniqueUsers,
       searchTerm,searchResults,searchLoading,isPrivateChannel,isChannelStarred,
-      typingUsers} = this.state;
+      typingUsers,messagesLoading} = this.state;
 
     return (
       <React.Fragment>
@@ -240,10 +260,12 @@ class Messages extends React.Component {
 
         <Segment>
           <Comment.Group className={progressBar ? 'messages__progress' : 'messages'}>
+            {this.displayMessagesSkeleton(messagesLoading)}
             {searchTerm
               ? this.displayMessages(searchResults)
               : this.displayMessages(messages)}
               {this.displayTypingUsers(typingUsers)}
+              <div ref={node=>(this.messagesEnd = node)}></div>
           </Comment.Group>
         </Segment>
 
