@@ -18,9 +18,11 @@ export default class MetaPanel extends React.Component {
 
   formatCount = count => (count > 1 || count === 0) ? `${count} posts` : `${count} post`;
 
-  displayTopPosters = posts => (
+  displayTopPosters = posts => {
+    // console.log(Object.entries(posts));
+    return (
     Object.entries(posts)
-      .sort((a ,b) => b[1] - a[1])
+      .sort((a ,b) => b[1].count-a[1].count)
       .map(([key,val], i) => (
         <List.Item key={i}>
           <Image avatar src={val.avatar} />
@@ -31,7 +33,7 @@ export default class MetaPanel extends React.Component {
         </List.Item>
       ))
       .slice(0,5)
-  )
+  )}
 
   render(){
     const {activeIndex,isPrivateChannel,channel} = this.state;
