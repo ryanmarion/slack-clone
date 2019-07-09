@@ -47,6 +47,7 @@ class ColorPanel extends React.Component {
     if(this.state.primary && this.state.secondary){
       this.saveColors(this.state.primary,this.state.secondary);
     }
+    this.closeModal();
   }
 
   saveColors = (primary,secondary) => {
