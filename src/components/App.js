@@ -24,6 +24,7 @@ const App = ({currentUser,currentChannel,isPrivateChannel,userPosts,primaryColor
         currentChannel={currentChannel}
         key={currentChannel && currentChannel.id}
         privateChannel={isPrivateChannel}
+        primaryColor={primaryColor}
       />
     </Grid.Column>
     <Grid.Column width={4}>
