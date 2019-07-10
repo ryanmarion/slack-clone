@@ -11,10 +11,6 @@ body,
   padding-bottom: 2em;
 }
 
-.menu-container {
-
-}
-
 /* Messages.js */
 .messages {
   max-width:850px !important;

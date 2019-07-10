@@ -252,7 +252,10 @@ class Messages extends React.Component {
   }
 
   displayChannelName = channel => {
-    return channel ? `${this.state.privateChannel ? '@' : '#'}${channel.name}` : '';
+    const result = this.state.isPrivateChannel ? '@' : '#'
+    return channel
+      ? `${result}${channel.name}`
+      : "";
   };
 
   displayTypingUsers = users => (
@@ -275,7 +278,7 @@ class Messages extends React.Component {
   displayEmpty = () => {
     const {primaryColor} = this.props;
     return (
-    <Segment centered inverted textAlign="center" className='empty__message'>
+    <Segment inverted textAlign="center" className='empty__message'>
     Nothing here, yet. Send a message!
     </Segment>
   )}
