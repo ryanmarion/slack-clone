@@ -276,7 +276,6 @@ class Messages extends React.Component {
     ) : null;
 
   displayEmpty = () => {
-    const {primaryColor} = this.props;
     return (
     <Segment inverted textAlign="center" className='empty__message'>
     Nothing here, yet. Send a message!
