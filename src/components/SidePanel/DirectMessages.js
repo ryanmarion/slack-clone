@@ -2,16 +2,22 @@ import React from 'react';
 import firebase from '../../firebase';
 import { connect } from 'react-redux';
 import { setCurrentChannel, setPrivateChannel } from '../../actions';
-import {Menu,Icon} from 'semantic-ui-react';
+import {Menu,Icon,Modal,Form,Button,Input,List,Image} from 'semantic-ui-react';
 
 class DirectMessages extends React.Component{
   state = {
     activeChannel:'',
     user:this.props.currentUser,
     users:[],
+    userSearch:'',
+    userSearchLoading:false,
     usersRef:firebase.database().ref('users'),
     connectedRef:firebase.database().ref('.info/connected'),
-    presenceRef:firebase.database().ref('presence')
+    presenceRef:firebase.database().ref('presence'),
+    privateMessagesRef:firebase.database().ref('privateMessages'),
+    modal:false,
+    searchResults:'',
+    userToLoad:''
   }
 
   componentDidMount(){
@@ -40,6 +46,11 @@ class DirectMessages extends React.Component{
         loadedUsers.push(user);
         this.setState({ users: loadedUsers});
       }
+    });
+
+    let directUsers = [];
+    this.state.privateMessagesRef.on('child_added',snap => {
+      console.log(snap);
     });
 
     this.state.connectedRef.on('value',snap => {
@@ -101,16 +112,81 @@ class DirectMessages extends React.Component{
     this.setState({activeChannel:userId});
   }
 
+  closeModal = () => this.setState({modal:false});
+
+  openModal = () => this.setState({modal:true});
+
+  handleSearcChange = e => {
+    this.setState({
+      [e.target.name]:e.target.value,
+      userSearchLoading:true
+    },()=> this.handleSearchUsers());
+  };
+
+  handleSearchUsers = () => {
+    const {users,userSearch} = this.state;
+    const regex = new RegExp(userSearch,'gi');
+    const searchResults = users.reduce((acc,user) => {
+      if (user.name && user.name.match(regex)){
+        acc.push(user);
+      }
+      return acc;
+    },[]);
+    this.setState({ searchResults });
+    setTimeout(()=> this.setState({ userSearchLoading:false}),1000);
+  };
+
+  displaySearchResults = results => (
+    results.map(result=>(
+      <List.Item key={result.uid} onClick={()=>this.updateSearch(result)}>
+        <Image avatar src={result.avatar} />
+        <List.Content>
+          <List.Header>{result.name}</List.Header>
+        </List.Content>
+    </List.Item>
+  )).slice(0,5)
+  )
+
+  updateSearch = user => {
+    this.setState({
+        userSearch:user.name,
+        userToLoad:user
+    });
+  };
+
+  handleSubmit = e => {
+    e.preventDefault();
+    if (this.isFormValid(this.state)){
+      this.addChannel();
+    }
+  };
+
+  addChannel = () => {
+    const {userToLoad} = this.state;
+
+    const channelId = this.getChannelId(userToLoad.uid);
+    const channelData = {
+      id:channelId,
+      name:userToLoad.name
+    };
+    this.props.setCurrentChannel(channelData);
+    this.props.setPrivateChannel(true);
+    this.setActiveChannel(userToLoad.uid);
+  }
+
+  isFormValid = ({userToLoad}) => userToLoad;
+
   render(){
-    const {users,activeChannel} = this.state;
+    const {users,activeChannel,modal,userSearch,userSearchLoading,searchResults,userToLoad} = this.state;
 
     return (
+      <React.Fragment>
       <Menu.Menu className='menu'>
         <Menu.Item>
           <span>
             <Icon name="mail" /> DIRECT MESSAGES
           </span>{' '}
-          ({users.length})
+          ({users.length})<Icon name="add" onClick={this.openModal}/>
         </Menu.Item>
         {users.map(user=>(
           <Menu.Item
@@ -127,6 +203,41 @@ class DirectMessages extends React.Component{
           </Menu.Item>
         ))}
       </Menu.Menu>
+
+      <Modal open={modal} onClose={this.closeModal} >
+        <Modal.Header>Select a user to chat with</Modal.Header>
+        <Modal.Content>
+          <Form onSubmit={this.handleSubmit}>
+            <Form.Field>
+              <Input fluid
+                     loading={userSearchLoading}
+                     label="Username:"
+                     name="userSearch"
+                     value={userSearch}
+                     onChange={this.handleSearcChange}
+              />
+            </Form.Field>
+
+          </Form>
+        </Modal.Content>
+
+        <List relaxed="very" selection>
+          {(userSearch && searchResults) ? (
+            this.displaySearchResults(searchResults)
+          ) : ''}
+        </List>
+
+        <Modal.Actions>
+          <Button color="green" inverted onClick={this.handleSubmit}>
+            <Icon name="checkmark" /> Add Direct Message
+          </Button>
+          <Button color="red" inverted onClick={this.closeModal}>
+            <Icon name="remove" /> Cancel
+          </Button>
+        </Modal.Actions>
+      </Modal>
+
+      </React.Fragment>
     )
   }
 }
