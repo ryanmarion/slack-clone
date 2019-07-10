@@ -15,7 +15,7 @@ export default class SidePanel extends React.Component {
         inverted
         fixed="left"
         vertical
-        style={{background:primaryColor,fontSize:'1.1rem'}}>
+        style={{background:primaryColor,fontSize:'1.2rem'}}>
           <UserPanel currentUser={currentUser} primaryColor={primaryColor}/>
           <Starred currentUser={currentUser} />
           <Channels currentUser={currentUser} />

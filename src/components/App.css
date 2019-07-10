@@ -199,3 +199,11 @@ body,
   left: 40px;
   right: 20px;
 }
+
+.user__search__result {
+  padding-left: 50px !important;
+}
+
+.search__modal {
+  max-width:600px !important;
+}

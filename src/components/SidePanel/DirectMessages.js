@@ -9,6 +9,7 @@ class DirectMessages extends React.Component{
     activeChannel:'',
     user:this.props.currentUser,
     users:[],
+    usersDirect:[],
     userSearch:'',
     userSearchLoading:false,
     usersRef:firebase.database().ref('users'),
@@ -48,9 +49,20 @@ class DirectMessages extends React.Component{
       }
     });
 
-    let directUsers = [];
-    this.state.privateMessagesRef.on('child_added',snap => {
-      console.log(snap);
+    let usersDirect = [];
+    this.state.privateMessagesRef.on('child_added', snap => {
+      let uid2 = Object.keys(snap.val());
+      if(currentUserId !== snap.key && uid2.includes(currentUserId) && !this.state.usersDirect.includes(snap.key)){
+        usersDirect.push(snap.key);
+      } else if (currentUserId === snap.key){
+        uid2.forEach(user =>{
+          if(!this.state.usersDirect.includes(user)){
+            usersDirect.push(user);
+          }
+        });
+      }
+
+      this.setState({usersDirect})
     });
 
     this.state.connectedRef.on('value',snap => {
@@ -138,7 +150,7 @@ class DirectMessages extends React.Component{
 
   displaySearchResults = results => (
     results.map(result=>(
-      <List.Item key={result.uid} onClick={()=>this.updateSearch(result)}>
+      <List.Item className="user__search__result" key={result.uid} onClick={()=>this.updateSearch(result)}>
         <Image avatar src={result.avatar} />
         <List.Content>
           <List.Header>{result.name}</List.Header>
@@ -155,56 +167,70 @@ class DirectMessages extends React.Component{
   };
 
   handleSubmit = e => {
-    e.preventDefault();
     if (this.isFormValid(this.state)){
       this.addChannel();
-    }
+    };
+    this.closeModal();
   };
 
   addChannel = () => {
-    const {userToLoad} = this.state;
+    const {userToLoad,usersDirect} = this.state;
+
+    if (!usersDirect.includes(userToLoad.uid)) usersDirect.push(userToLoad.uid);
+
+    this.setState({usersDirect});
 
     const channelId = this.getChannelId(userToLoad.uid);
     const channelData = {
       id:channelId,
       name:userToLoad.name
     };
-    this.props.setCurrentChannel(channelData);
     this.props.setPrivateChannel(true);
+    this.props.setCurrentChannel(channelData);
     this.setActiveChannel(userToLoad.uid);
+
+    this.setState({
+      userSearch:'',
+      searchResults:'',
+    })
   }
 
   isFormValid = ({userToLoad}) => userToLoad;
 
+  displayUsers = (usersDirect,activeChannel,users) => {
+
+    return users.filter(user => usersDirect.includes(user.uid)).map(user=>(
+      <Menu.Item
+        key={user.uid}
+        active={user.uid === activeChannel}
+        onClick={() => this.changeChannel(user)}
+        style={{opacity:0.7,fontStyle:'italic'}}
+      >
+        <Icon
+          name="circle"
+          color={this.isUserOnline(user) ? 'green' : 'red'}
+        />
+        @ {user.name}
+      </Menu.Item>
+    ))
+  }
+
   render(){
-    const {users,activeChannel,modal,userSearch,userSearchLoading,searchResults,userToLoad} = this.state;
+    const {users,activeChannel,modal,userSearch,userSearchLoading,searchResults,usersDirect} = this.state;
 
     return (
       <React.Fragment>
       <Menu.Menu className='menu'>
         <Menu.Item>
           <span>
-            <Icon name="mail" /> DIRECT MESSAGES
+            <Icon name="mail" /> DIRECT MAIL
           </span>{' '}
-          ({users.length})<Icon name="add" onClick={this.openModal}/>
+          ({usersDirect.length})<Icon name="add" onClick={this.openModal}/>
         </Menu.Item>
-        {users.map(user=>(
-          <Menu.Item
-            key={user.uid}
-            active={user.uid === activeChannel}
-            onClick={() => this.changeChannel(user)}
-            style={{opacity:0.7,fontStyle:'italic'}}
-          >
-            <Icon
-              name="circle"
-              color={this.isUserOnline(user) ? 'green' : 'red'}
-            />
-            @ {user.name}
-          </Menu.Item>
-        ))}
+        {usersDirect ? this.displayUsers(usersDirect,activeChannel,users) : '' }
       </Menu.Menu>
 
-      <Modal open={modal} onClose={this.closeModal} >
+      <Modal className="search__modal" open={modal} onClose={this.closeModal} >
         <Modal.Header>Select a user to chat with</Modal.Header>
         <Modal.Content>
           <Form onSubmit={this.handleSubmit}>
@@ -221,7 +247,7 @@ class DirectMessages extends React.Component{
           </Form>
         </Modal.Content>
 
-        <List relaxed="very" selection>
+        <List divided relaxed="very" selection>
           {(userSearch && searchResults) ? (
             this.displaySearchResults(searchResults)
           ) : ''}
