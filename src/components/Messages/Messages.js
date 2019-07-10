@@ -133,6 +133,7 @@ class Messages extends React.Component {
       this.countUniqueUsers(loadedMessages);
       this.countUserPosts(loadedMessages);
     });
+    setTimeout(()=>this.setState({messagesLoading:false}),1000);
     this.addToListeners(channelId,ref,'child_added');
   };
 
@@ -271,6 +272,14 @@ class Messages extends React.Component {
       </React.Fragment>
     ) : null;
 
+  displayEmpty = () => {
+    const {primaryColor} = this.props;
+    return (
+    <Segment centered inverted textAlign="center" className='empty__message'>
+    Nothing here, yet. Send a message!
+    </Segment>
+  )}
+
   render(){
     const {messagesRef,channel,user,messages,progressBar,numUniqueUsers,
       searchTerm,searchResults,searchLoading,isPrivateChannel,isChannelStarred,
@@ -291,9 +300,9 @@ class Messages extends React.Component {
         <Segment>
           <Comment.Group className={progressBar ? 'messages__progress' : 'messages'}>
             {this.displayMessagesSkeleton(messagesLoading)}
-            {searchTerm
+            {(!messages.length && !messagesLoading) ? this.displayEmpty() : (searchTerm
               ? this.displayMessages(searchResults)
-              : this.displayMessages(messages)}
+              : this.displayMessages(messages))}
               {this.displayTypingUsers(typingUsers)}
               <div ref={node=>(this.messagesEnd = node)}></div>
           </Comment.Group>

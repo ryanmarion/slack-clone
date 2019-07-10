@@ -63,7 +63,7 @@ class Starred extends React.Component {
   };
 
   displayChannels = starredChannels => (
-    starredChannels.length &&
+    starredChannels.length ? (
     starredChannels.map(channel => (
       <Menu.Item key={channel.id}
                  onClick={() => this.changeChannel(channel)}
@@ -73,7 +73,7 @@ class Starred extends React.Component {
       >
         # {channel.name}
       </Menu.Item>
-    ))
+    ))) : ''
   );
 
   render(){

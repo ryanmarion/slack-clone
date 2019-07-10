@@ -17,9 +17,11 @@ export default class SidePanel extends React.Component {
         vertical
         style={{background:primaryColor,fontSize:'1.2rem'}}>
           <UserPanel currentUser={currentUser} primaryColor={primaryColor}/>
+          <div className="menu-container">
           <Starred currentUser={currentUser} />
           <Channels currentUser={currentUser} />
           <DirectMessages currentUser={currentUser} />
+          </div>
         </Menu>
     )
   }
