@@ -64,7 +64,7 @@ export default class MessageForm extends React.Component {
 
   handleAddEmoji = emoji => {
     const oldMessage = this.state.message;
-    const newMessage = this.colonToUnicode(` ${oldMessage} ${emoji.colons} `)
+    const newMessage = this.colonToUnicode(`${oldMessage}${emoji.colons} `)
     this.setState({message:newMessage, emojiPicker:false});
     setTimeout(() => this.messageInputRef.focus(),0);
   };
@@ -202,6 +202,12 @@ export default class MessageForm extends React.Component {
       })
   }
 
+  handleFocus = e => {
+    let val = e.target.value;
+    e.target.value='';
+    e.target.value=val;
+  }
+
   render(){
     //prettier-ignore
     const {errors, message, loading,
@@ -221,6 +227,8 @@ export default class MessageForm extends React.Component {
           <Input
             fluid
             name="message"
+            autoFocus
+            onFocus={this.handleFocus}
             onChange={this.handleChange}
             onKeyDown={this.handleKeyDown}
             value={message}

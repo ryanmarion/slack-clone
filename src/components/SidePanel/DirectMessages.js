@@ -237,6 +237,7 @@ class DirectMessages extends React.Component{
             <Form.Field>
               <Input fluid
                      loading={userSearchLoading}
+                     autoFocus
                      label="Username:"
                      name="userSearch"
                      value={userSearch}
