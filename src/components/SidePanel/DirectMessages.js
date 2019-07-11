@@ -61,8 +61,7 @@ class DirectMessages extends React.Component{
           }
         });
       }
-
-      this.setState({usersDirect})
+      this.setState({usersDirect});
     });
 
     this.state.connectedRef.on('value',snap => {
@@ -89,7 +88,7 @@ class DirectMessages extends React.Component{
       }
     });
 
-  }
+  };
 
   addStatusToUser = (userId,connected=true) => {
     const updatedUsers = this.state.users.reduce((acc,user)=> {
