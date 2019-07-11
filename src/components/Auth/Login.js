@@ -59,9 +59,9 @@ class Login extends React.Component {
         <Grid.Column style={{maxWidth:450}}>
           <Form onSubmit={this.handleSubmit} size="large">
             <Segment>
-              <Header as="h2" icon color="violet" textAlign="center">
-              <Icon name="code branch" color="violet"/>
-              Login to Flack
+              <Header as="h2" icon style={{'color':'#4c3c4c'}} textAlign="center">
+              <Icon name="code branch" style={{'color':'#4c3c4c'}}/>
+              Login to Chat
               </Header>
               <Form.Input fluid name="email"
                                 icon="mail"
@@ -79,7 +79,8 @@ class Login extends React.Component {
                                 className={this.handleInputErrors(errors,'password')}
                                 type="password"
                                 onChange={this.handleChange} />
-              <Button color="violet"
+              <Button inverted
+                      style={{'background-color':'#4c3c4c'}}
                       className={loading ? 'loading':''}
                       disabled={loading}
                       fluid size="large">

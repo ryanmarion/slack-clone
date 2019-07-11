@@ -122,7 +122,7 @@ class UserPanel extends React.Component {
             {/* Main App Header */}
             <Header inverted floated="left" as="h2">
               <Icon name="slack hash"/>
-              <Header.Content>Slack Clone</Header.Content>
+              <Header.Content>Flack</Header.Content>
             </Header>
 
             {/* Dropdown of user Options */}
