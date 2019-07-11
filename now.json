@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "name": "slack-clone",
+  "name": "flack",
   "builds": [
     {
       "src": "package.json",
