@@ -55,14 +55,14 @@ class Login extends React.Component {
            loading} = this.state;
 
     return(
-      <Grid textAlign="center" verticalAlign="middle" className="app">
+      <Grid textAlign="center" verticalAlign="middle" className="login">
         <Grid.Column style={{maxWidth:450}}>
-          <Header as="h2" icon color="violet" textAlign="center">
-            <Icon name="code branch" color="violet"/>
-            Login to Slack-Clone
-          </Header>
           <Form onSubmit={this.handleSubmit} size="large">
             <Segment>
+              <Header as="h2" icon color="violet" textAlign="center">
+              <Icon name="code branch" color="violet"/>
+              Login to Flack
+              </Header>
               <Form.Input fluid name="email"
                                 icon="mail"
                                 iconPosition="left"

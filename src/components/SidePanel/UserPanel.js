@@ -121,8 +121,8 @@ class UserPanel extends React.Component {
           <Grid.Row style={{padding:'1.2em',margin:0}}>
             {/* Main App Header */}
             <Header inverted floated="left" as="h2">
-              <Icon name="code"/>
-              <Header.Content>SlackChat</Header.Content>
+              <Icon name="slack hash"/>
+              <Header.Content>Slack Clone</Header.Content>
             </Header>
 
             {/* Dropdown of user Options */}
