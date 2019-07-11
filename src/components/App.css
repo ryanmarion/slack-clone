@@ -1,5 +1,31 @@
-html,
-body,
+@import url('https://fonts.googleapis.com/css?family=Catamaran:800&display=swap');
+
+.login {
+  height: 90vh;
+  padding: 1em;
+}
+
+.nav__menu {
+
+}
+
+.nav__header {
+  margin-top:10px !important;
+  font-family: 'Catamaran', sans-serif !important;
+}
+
+#background-video{
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  width: auto;
+  min-width: 100%;
+  height: auto;
+  min-height: 100%;
+  z-index: -100;
+  background-size: cover;
+}
+
 .app {
   height: 100vh;
   background: #eee;

@@ -2,8 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/App';
 import * as serviceWorker from './serviceWorker';
-import Register from './components/Auth/Register';
-import Login from './components/Auth/Login';
+import RegisterContainer from './components/Auth/RegisterContainer';
+import LoginContainer from './components/Auth/LoginContainer';
 import { BrowserRouter as Router, Switch, Route, withRouter} from 'react-router-dom';
 import 'semantic-ui-css/semantic.min.css';
 import firebase from './firebase';
@@ -34,8 +34,8 @@ class Root extends React.Component {
     return this.props.isLoading ? <Spinner /> : (
       <Switch>
         <Route exact path="/" component={App} />
-        <Route path="/login" component={Login} />
-        <Route path="/register" component={Register} />
+        <Route path="/login" component={LoginContainer} />
+        <Route path="/register" component={RegisterContainer} />
       </Switch>
   )}
 }

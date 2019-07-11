@@ -107,14 +107,14 @@ class Register extends React.Component {
            loading} = this.state;
 
     return(
-      <Grid textAlign="center" verticalAlign="middle" className="app">
+      <Grid textAlign="center" verticalAlign="middle" className="login">
         <Grid.Column style={{maxWidth:450}}>
-          <Header as="h2" icon color="orange" textAlign="center">
-            <Icon name="puzzle piece" color="orange"/>
-            Register for Slack-Clone
-          </Header>
           <Form onSubmit={this.handleSubmit} size="large">
             <Segment>
+              <Header as="h2" icon color="orange" textAlign="center">
+              <Icon name="puzzle piece" color="orange"/>
+              Register for Flack
+              </Header>
               <Form.Input fluid name="username"
                                 icon="user"
                                 iconPosition="left"
