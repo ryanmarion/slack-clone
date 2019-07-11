@@ -27,7 +27,7 @@ const App = ({currentUser,currentChannel,isPrivateChannel,userPosts,primaryColor
         primaryColor={primaryColor}
       />
     </Grid.Column>
-    <Grid.Column width={4}>
+    <Grid.Column width={2}>
       <MetaPanel
         userPosts={userPosts}
         key={currentChannel && currentChannel.name}

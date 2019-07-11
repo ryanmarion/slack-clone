@@ -4,7 +4,7 @@ import {Segment,Accordion,Header,Icon,Image,List} from 'semantic-ui-react';
 
 export default class MetaPanel extends React.Component {
   state = {
-    activeIndex:0,
+    activeIndex:[0,1],
     isPrivateChannel:this.props.isPrivateChannel,
     channel:this.props.currentChannel
   }
@@ -12,7 +12,14 @@ export default class MetaPanel extends React.Component {
   setActiveIndex = (e,titleProps) => {
     const {index} = titleProps;
     const {activeIndex} = this.state;
-    const newIndex = activeIndex === index ? -1 : index;
+    const newIndex = activeIndex;
+
+    const currentIndexPosition = activeIndex.indexOf(index);
+    if(currentIndexPosition > -1){
+      newIndex.splice(currentIndexPosition,1);
+    } else {
+      newIndex.push(index)
+    }
     this.setState({activeIndex:newIndex})
   };
 
@@ -46,7 +53,7 @@ export default class MetaPanel extends React.Component {
       <Header>
         About # {channel && channel.name}
       </Header>
-      <Accordion styled attached="true">
+      <Accordion exclusive={false} styled attached="true">
         <Accordion.Title
           active={activeIndex === 0}
           index={0}
@@ -56,7 +63,7 @@ export default class MetaPanel extends React.Component {
           <Icon name="info" />
           Channel Details
         </Accordion.Title>
-        <Accordion.Content active={activeIndex === 0}>
+        <Accordion.Content active={activeIndex.includes(0)}>
           {channel && channel.details}
         </Accordion.Content>
 
@@ -69,7 +76,7 @@ export default class MetaPanel extends React.Component {
           <Icon name="user circle" />
           Top Posters
         </Accordion.Title>
-        <Accordion.Content active={activeIndex === 1}>
+        <Accordion.Content active={activeIndex.includes(1)}>
           <List>
             {userPosts && this.displayTopPosters(userPosts)}
           </List>
@@ -84,7 +91,7 @@ export default class MetaPanel extends React.Component {
           <Icon name="pencil alternate" />
           Created By
         </Accordion.Title>
-        <Accordion.Content active={activeIndex === 2}>
+        <Accordion.Content active={activeIndex.includes(2)}>
         <Header as="h3">
           <Image circular src={channel && channel.createdBy.avatar} />
           {channel && channel.createdBy.name}
