@@ -5,11 +5,12 @@ export default class NavMenu extends Component {
   state = {}
 
   render() {
+    const {color} = this.props;
 
     return (
       <Grid verticalAlign='top'>
         <Grid.Column>
-          <Menu inverted color="violet" style={{'height':60}}>
+          <Menu inverted style={{'height':60,'border-radius':0,'background-color':`${color}`}}>
             <Header inverted as="h2" position='left' className="nav__header">
               <Icon name="slack hash" style={{'margin-right':0}}/>flack
             </Header>

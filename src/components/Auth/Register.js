@@ -113,7 +113,7 @@ class Register extends React.Component {
             <Segment>
               <Header as="h2" icon color="orange" textAlign="center">
               <Icon name="puzzle piece" color="orange"/>
-              Register for Flack
+              Register an Account
               </Header>
               <Form.Input fluid name="username"
                                 icon="user"

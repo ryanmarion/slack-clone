@@ -7,7 +7,7 @@ class LoginContainer extends React.Component {
   render () {
   return (
     <div>
-      <NavMenu />
+      <NavMenu color={'#4c3c4c'}/>
       <Login />
       <video id="background-video" loop autoPlay muted>
         <source src={'http://res.cloudinary.com/dwqeotsx5/video/upload/v1490374875/563400030_pgaidm.mp4'} type="video/mp4" />
