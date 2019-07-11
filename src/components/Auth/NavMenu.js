@@ -1,5 +1,6 @@
-import React, { Component } from 'react'
-import { Menu, Header,Icon,Button,Grid } from 'semantic-ui-react'
+import React, { Component } from 'react';
+import { Menu, Header,Icon,Button,Grid } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
 
 export default class NavMenu extends Component {
   state = {}
@@ -17,15 +18,19 @@ export default class NavMenu extends Component {
 
             <Menu.Menu position='right' verticalAlign='middle'>
               <Menu.Item name='login' style={{'width':80,'margin-top':15}} onClick={this.handleItemClick}>
-                <Button inverted>
-                  Login
+              <Link to="/login">
+                <Button inverted >
+                    Login
                 </Button>
+                </Link>
               </Menu.Item>
 
               <Menu.Item name='register' style={{'width':100,'margin-top':15,'margin-right':15}} onClick={this.handleItemClick}>
-                <Button inverted>
-                  Register
-                </Button>
+                  <Link to="/register">
+                  <Button  inverted>
+                    Register
+                    </Button>
+                  </Link>
               </Menu.Item>
             </Menu.Menu>
           </Menu>
