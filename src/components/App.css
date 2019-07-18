@@ -43,7 +43,7 @@ html {
 
 /* Messages.js */
 .messages {
-  max-width:850px !important;
+  max-width:1200px !important;
   height: 62vh;
   overflow-y: scroll;
 }
@@ -59,7 +59,7 @@ html {
 }
 
 .messages__progress {
-  max-width:850px !important;
+  max-width:1200px !important;
   height:58vh;
   overflow-y:scroll;
 }
