@@ -84,7 +84,7 @@ html {
 /* MessageForm.js */
 .message__form {
   position: relative !important;
-  bottom: 1em;
+  bottom: 0.5em;
   left: 0;
   right: 1em;
   z-index: 200;
