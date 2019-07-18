@@ -9,7 +9,7 @@ class DirectMessages extends React.Component{
     activeChannel:'',
     user:this.props.currentUser,
     users:[],
-    usersDirect:[],
+    usersDirect:['MhfwvUPmxIemgkIJcGnWUAGknpt1'],
     userSearch:'',
     userSearchLoading:false,
     usersRef:firebase.database().ref('users'),
@@ -18,14 +18,14 @@ class DirectMessages extends React.Component{
     privateMessagesRef:firebase.database().ref('privateMessages'),
     modal:false,
     searchResults:'',
-    userToLoad:''
+    userToLoad:{name:"ryan",uid:'MhfwvUPmxIemgkIJcGnWUAGknpt1'}
   }
 
   componentDidMount(){
     if(this.state.user){
       this.addListeners(this.state.user.uid);
     }
-  }
+  };
 
   componentWillUnmount(){
     this.removeListeners();
@@ -49,7 +49,7 @@ class DirectMessages extends React.Component{
       }
     });
 
-    let usersDirect = [];
+    let usersDirect = this.state.usersDirect;
     this.state.privateMessagesRef.on('child_added', snap => {
       let uid2 = Object.keys(snap.val());
       if(currentUserId !== snap.key && uid2.includes(currentUserId) && !this.state.usersDirect.includes(snap.key)){

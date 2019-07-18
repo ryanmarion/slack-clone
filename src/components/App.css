@@ -44,8 +44,24 @@ html {
 /* Messages.js */
 .messages {
   max-width:1200px !important;
-  height: 62vh;
+  height: 64vh;
   overflow-y: scroll;
+}
+
+.messages__progress {
+  max-width:1200px !important;
+  height:58vh;
+  overflow-y:scroll;
+}
+
+.header__search {
+  overflow:hidden !important;
+  min-width:0 !important;
+}
+
+.messages__header {
+  min-width:0 !important;
+  overflow:hidden !important;
 }
 
 .empty__message {
@@ -58,11 +74,6 @@ html {
   margin-top:15px !important;
 }
 
-.messages__progress {
-  max-width:1200px !important;
-  height:58vh;
-  overflow-y:scroll;
-}
 
 /* MessageForm.js */
 .message__form {

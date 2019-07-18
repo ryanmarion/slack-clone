@@ -6,19 +6,22 @@ import SidePanel from './SidePanel/SidePanel';
 import Messages from './Messages/Messages';
 import MetaPanel from './MetaPanel/MetaPanel';
 import {connect} from 'react-redux';
+import MediaQuery from 'react-responsive';
 
 const App = ({currentUser,currentChannel,isPrivateChannel,userPosts,primaryColor,secondaryColor}) => (
   <Grid columns="equal" className="app" style={{background:secondaryColor}}>
+    <MediaQuery query="(min-device-width: 1224px)">
     <ColorPanel
       key={currentUser && currentUser.name}
       currentUser={currentUser}
     />
+    </MediaQuery>
     <SidePanel
       key={currentUser && currentUser.uid}
       currentUser={currentUser}
       primaryColor={primaryColor}
     />
-    <Grid.Column style={{marginLeft:320}}>
+    <Grid.Column style={{marginLeft:320,minWidth:500}}>
       <Messages
         currentUser={currentUser}
         currentChannel={currentChannel}
