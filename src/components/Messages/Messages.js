@@ -171,7 +171,7 @@ class Messages extends React.Component {
       },
     }
 
-    message['content'] = "Hi, I'm Ryan. welcome to Flack! :)";
+    message['content'] = "Hi, I'm Ryan. Welcome to Flack!";
 
     return message;
   }
