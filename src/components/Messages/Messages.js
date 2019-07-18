@@ -167,7 +167,7 @@ class Messages extends React.Component {
       user:{
         id:'MhfwvUPmxIemgkIJcGnWUAGknpt1',
         name:'ryan',
-        avatar:'http://gravatar.com/avatar/a9cb751c819c8a341d95587f677fec3a?d=identicon'
+        avatar:'https://firebasestorage.googleapis.com/v0/b/slack-clone-rmarion.appspot.com/o/avatar%2Fusers%2FMhfwvUPmxIemgkIJcGnWUAGknpt1?alt=media&token=398a452c-4b0d-445a-909d-c520c6e46a48'
       },
     }
 
