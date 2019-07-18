@@ -80,7 +80,7 @@ class Login extends React.Component {
                                 type="password"
                                 onChange={this.handleChange} />
               <Button inverted
-                      style={{'background-color':'#4c3c4c'}}
+                      style={{'backgroundColor':'#4c3c4c'}}
                       className={loading ? 'loading':''}
                       disabled={loading}
                       fluid size="large">
