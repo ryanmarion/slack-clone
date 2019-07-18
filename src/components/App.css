@@ -13,6 +13,12 @@ html {
 
 }
 
+.emoji-mart {
+  width: 348px;
+  position: absolute;
+  bottom: 100px;
+}
+
 .nav__header {
   margin-top:10px !important;
   font-family: 'Catamaran', sans-serif !important;
@@ -77,9 +83,8 @@ html {
 
 /* MessageForm.js */
 .message__form {
-  position: fixed !important;
+  position: relative !important;
   bottom: 1em;
-  margin-left: 320px !important;
   left: 0;
   right: 1em;
   z-index: 200;
