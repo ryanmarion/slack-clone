@@ -214,12 +214,12 @@ export default class MessageForm extends React.Component {
       modal, percentageUploaded, uploadState,emojiPicker} = this.state;
 
     return (
-      <Segment className="message__form">
+      <Segment fluid className="message__form">
           {emojiPicker && (
             <Picker
               set="apple"
               onSelect={this.handleAddEmoji}
-              className="emojipicker"
+              className="emoji__picker"
               title="Pick your emoji"
               emoji="point_up"
             />
