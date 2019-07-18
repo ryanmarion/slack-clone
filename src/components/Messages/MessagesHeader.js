@@ -9,7 +9,7 @@ export default class MessagesHeader extends React.Component {
     return (
       <Segment clearing>
         {/*channel title */}
-        <Header fluid="true" as="h2" floated="left" style={{ marginBottom:0}}>
+        <Header className="messages__header" fluid="true" as="h2" floated="left" style={{ marginBottom:0}}>
           <span>
           {channelName}
           {!isPrivateChannel && (
@@ -26,6 +26,7 @@ export default class MessagesHeader extends React.Component {
         {/*channel search*/}
         <Header floated="right">
           <Input
+            className="header__search"
             loading={searchLoading}
             onChange={handleSearchChange}
             size="mini"

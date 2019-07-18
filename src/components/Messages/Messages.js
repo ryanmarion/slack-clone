@@ -122,8 +122,32 @@ class Messages extends React.Component {
 
   addMessageListener = channelId => {
     let loadedMessages = [];
+    let sampleMessage = ["Hi, I'm Ryan. Welcome to Flack!"]; // seed data
+
 
     const ref = this.getMessagesRef();
+    if(ref === this.state.privateMessagesRef && channelId.includes('MhfwvUPmxIemgkIJcGnWUAGknpt1')){
+      ref.child(channelId).once("value",snap => {
+        console.log('here');
+        if(!snap.exists()){
+          console.log(snap);
+          snap
+            .ref
+            .push()
+            .set(this.seedMessage())
+            .catch(err=>{
+              console.error(err);
+              this.setState({
+                loading:false,
+                errors:this.state.errors.concat(err)
+              })
+            });
+
+            //set messages loading false here, or do it in a then
+        }
+      })
+    }
+
     ref.child(channelId).on('child_added', snap => {
       loadedMessages.push(snap.val());
       this.setState({
@@ -136,6 +160,21 @@ class Messages extends React.Component {
     setTimeout(()=>this.setState({messagesLoading:false}),1000);
     this.addToListeners(channelId,ref,'child_added');
   };
+
+  seedMessage = () => {
+    const message = {
+      timestamp:firebase.database.ServerValue.TIMESTAMP,
+      user:{
+        id:'MhfwvUPmxIemgkIJcGnWUAGknpt1',
+        name:'ryan',
+        avatar:'http://gravatar.com/avatar/a9cb751c819c8a341d95587f677fec3a?d=identicon'
+      },
+    }
+
+    message['content'] = "Hi, I'm Ryan. welcome to Flack! :)";
+
+    return message;
+  }
 
   addUserStarsListener = (channelId,userId) => {
     this.state.usersRef
@@ -283,7 +322,7 @@ class Messages extends React.Component {
   )}
 
   render(){
-    const {messagesRef,channel,user,messages,progressBar,numUniqueUsers,
+    const {messagesRef,channel,user,messages,numUniqueUsers,
       searchTerm,searchResults,searchLoading,isPrivateChannel,isChannelStarred,
       typingUsers,messagesLoading} = this.state;
 
@@ -300,7 +339,7 @@ class Messages extends React.Component {
         />
 
         <Segment>
-          <Comment.Group className={progressBar ? 'messages__progress' : 'messages'}>
+          <Comment.Group className='messages'>
             {this.displayMessagesSkeleton(messagesLoading)}
             {(!messages.length && !messagesLoading) ? this.displayEmpty() : (searchTerm
               ? this.displayMessages(searchResults)
